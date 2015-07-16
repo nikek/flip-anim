@@ -1,5 +1,10 @@
 var d = document.querySelectorAll('div > div');
 
+var onTransitionEnd = function(){
+  this.classList.remove('animate-on-transforms');
+  this.removeEventListener('transitionend', onTransitionEnd);
+};
+
 Array.prototype.forEach.call(d, function(el){
 
   el.addEventListener('click', function(e){
@@ -43,7 +48,7 @@ Array.prototype.forEach.call(d, function(el){
       // Create ghost if div goes big
 			if(el.classList.contains('cover')) {
         var ghost = document.createElement('div');
-        ghost.className = "ghost";
+        ghost.classList.add("ghost");
         el.parentNode.insertBefore(ghost, el);
       }
 
@@ -57,8 +62,6 @@ Array.prototype.forEach.call(d, function(el){
 
 
     // Capture the end with transitionend
-    el.addEventListener('transitionend', function(){
-      el.classList.remove('animate-on-transforms');
-    });
+    el.addEventListener('transitionend', onTransitionEnd);
 	});
 });
